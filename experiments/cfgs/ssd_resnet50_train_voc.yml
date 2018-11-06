@@ -11,7 +11,7 @@ MODEL:
 TRAIN:
   MAX_EPOCHS: 200
   CHECKPOINTS_EPOCHS: 1
-  BATCH_SIZE: 32
+  BATCH_SIZE: 8
   TRAINABLE_SCOPE: 'base,norm,extras,loc,conf'
   RESUME_SCOPE: 'base,norm,extras,loc,conf'
   OPTIMIZER:
@@ -40,7 +40,7 @@ POST_PROCESS:
 DATASET:
   DATASET: 'voc'
   DATASET_DIR: './data/VOCdevkit'
-  TRAIN_SETS: [['2007', 'trainval'], ['2012', 'trainval']]
+  TRAIN_SETS: [['2007', 'train'] ]
   TEST_SETS:  [['2007', 'test']]
 
 EXP_DIR: './experiments/models/ssd_resnet50_voc'
