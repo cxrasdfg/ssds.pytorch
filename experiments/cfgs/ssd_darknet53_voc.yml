@@ -40,11 +40,11 @@ POST_PROCESS:
 DATASET:
   DATASET: 'voc'
   DATASET_DIR: './data/VOCdevkit'
-  TRAIN_SETS: [['2007', 'trainval'], ['2012', 'trainval']]
+  TRAIN_SETS: [['2007', 'train']]
   TEST_SETS:  [['2007', 'test']]
   PROB: 0.6
 
 EXP_DIR: './experiments/models/ssd_darknet_53_voc'
 LOG_DIR: './experiments/models/ssd_darknet_53_voc'
 RESUME_CHECKPOINT: './weights/ssd/darknet53_ssd_voc_77.3.pth'
-PHASE: ['test']
+PHASE: ['train','test']
