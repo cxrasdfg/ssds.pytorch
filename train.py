@@ -4,6 +4,12 @@ import sys
 import os
 import argparse
 import numpy as np
+import torch
+rand_seed=1
+np.random.seed(rand_seed)
+torch.manual_seed(rand_seed)
+torch.cuda.manual_seed(rand_seed)
+
 if '/data/software/opencv-3.4.0/lib/python2.7/dist-packages' in sys.path:
     sys.path.remove('/data/software/opencv-3.4.0/lib/python2.7/dist-packages')
 if '/data/software/opencv-3.3.1/lib/python2.7/dist-packages' in sys.path:
@@ -11,13 +17,15 @@ if '/data/software/opencv-3.3.1/lib/python2.7/dist-packages' in sys.path:
 import cv2
 from datetime import datetime
 
-import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 
 from lib.utils.config_parse import cfg_from_file
 from lib.ssds_train import train_model
+
+import os
+os.environ['cuda_visible_devices']='1'
 
 def parse_args():
     """

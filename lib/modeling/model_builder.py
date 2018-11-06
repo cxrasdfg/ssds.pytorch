@@ -8,6 +8,7 @@ from lib.modeling.ssds import fssd
 from lib.modeling.ssds import fssd_lite
 from lib.modeling.ssds import yolo
 
+from torchvision.models import densenet201 as dsnet
 ssds_map = {
                 'ssd': ssd.build_ssd,
                 'ssd_lite': ssd_lite.build_ssd_lite,
@@ -40,6 +41,7 @@ networks_map = {
                     'mobilenet_v2_025': mobilenet.mobilenet_v2_025,
                     'darknet_19': darknet.darknet_19,
                     'darknet_53': darknet.darknet_53,
+                    'densenet201': lambda : list(dsnet(True).features[:-4])
                }
 
 from lib.layers.functions.prior_box import PriorBox
