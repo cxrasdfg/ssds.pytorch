@@ -43,5 +43,5 @@ DATASET:
 
 EXP_DIR: './experiments/models/ssd_densenet201_voc'
 LOG_DIR: './experiments/models/ssd_densenet201_voc'
-RESUME_CHECKPOINT: './weights/ssd/...pth'
+RESUME_CHECKPOINT: './weights/ssd/ssd_densenet201_voc_epoch_1.pth'
 PHASE: ['train','test']
