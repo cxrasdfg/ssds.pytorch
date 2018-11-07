@@ -26,6 +26,7 @@ from lib.ssds_train import train_model
 
 import os
 os.environ['cuda_visible_devices']='1'
+cv2.setNumThreads(0)
 
 def parse_args():
     """
