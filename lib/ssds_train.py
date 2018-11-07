@@ -233,7 +233,7 @@ class Solver(object):
             if 'eval' in cfg.PHASE:
                 self.eval_epoch(self.model, self.eval_loader, self.detector, self.criterion, self.writer, epoch, self.use_gpu)
             if 'test' in cfg.PHASE:
-                self.test_epoch(self.model, self.test_loader, self.detector, self.output_dir, self.use_gpu)
+                self.test_epoch(self.model, self.test_loader, self.detector, self.output_dir, self.writer, epoch, self.use_gpu)
             if 'visualize' in cfg.PHASE:
                 self.visualize_epoch(self.model, self.visualize_loader, self.priorbox, self.writer, epoch,  self.use_gpu)
 
@@ -259,7 +259,7 @@ class Solver(object):
             if 'eval' in cfg.PHASE:
                 self.eval_epoch(self.model, self.eval_loader, self.detector, self.criterion, self.writer, 0, self.use_gpu)
             if 'test' in cfg.PHASE:
-                self.test_epoch(self.model, self.test_loader, self.detector, self.output_dir , self.use_gpu)
+                self.test_epoch(self.model, self.test_loader, self.detector, self.output_dir ,self.writer, epoch, self.use_gpu)
             if 'visualize' in cfg.PHASE:
                 self.visualize_epoch(self.model, self.visualize_loader, self.priorbox, self.writer, 0,  self.use_gpu)
 
@@ -461,15 +461,16 @@ class Solver(object):
     #     data_loader.dataset.evaluate_detections(all_boxes, output_dir)
 
 
-    def test_epoch(self, model, data_loader, detector, output_dir, use_gpu):
+    def test_epoch(self, model, data_loader, detector, output_dir,writer, epoch,use_gpu):
         model.eval()
-
+        
         dataset = data_loader.dataset
         num_images = len(dataset)
         num_classes = detector.num_classes
         all_boxes = [[[] for _ in range(num_images)] for _ in range(num_classes)]
         empty_array = np.transpose(np.array([[],[],[],[],[]]),(1,0))
 
+        all_times=[]
         _t = Timer()
 
         for i in iter(range((num_images))):
@@ -488,7 +489,7 @@ class Solver(object):
             detections = detector.forward(out)
 
             time = _t.toc()
-
+            all_times.append(time)
             # TODO: make it smart:
             for j in range(1, num_classes):
                 cls_dets = list()
@@ -516,7 +517,15 @@ class Solver(object):
 
         # currently the COCO dataset do not return the mean ap or ap 0.5:0.95 values
         print('Evaluating detections')
-        data_loader.dataset.evaluate_detections(all_boxes, output_dir)
+        _aps,_map=data_loader.dataset.evaluate_detections(all_boxes, output_dir)
+        # print(all_times)
+        avg_time=(sum(all_times)/len(all_times))
+        print('Time in use: %.3f' % avg_time)
+        for i,_ap in enumerate(_aps): 
+            writer.add_scalar('Test_AP/class%d'%(i+1),_ap, epoch)
+            
+        writer.add_scalar('Test_mAP' ,_map, epoch)
+        writer.add_scalar('Test/fps',1./avg_time , epoch)
 
 
     def visualize_epoch(self, model, data_loader, priorbox, writer, epoch, use_gpu):

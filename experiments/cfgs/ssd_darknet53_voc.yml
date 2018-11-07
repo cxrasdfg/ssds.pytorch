@@ -9,8 +9,8 @@ MODEL:
   ASPECT_RATIOS: [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2], [1, 2]]
 
 TRAIN:
-  MAX_EPOCHS: 100
-  CHECKPOINTS_EPOCHS: 1
+  MAX_EPOCHS: 101
+  CHECKPOINTS_EPOCHS: 200
   BATCH_SIZE: 32
   TRAINABLE_SCOPE: 'base,norm,extras,loc,conf'
   RESUME_SCOPE: 'base,norm,extras,loc,conf'
@@ -47,4 +47,4 @@ DATASET:
 EXP_DIR: './experiments/models/ssd_darknet_53_voc'
 LOG_DIR: './experiments/models/ssd_darknet_53_voc'
 RESUME_CHECKPOINT: './weights/ssd/darknet53_ssd_voc_77.3.pth'
-PHASE: ['train','test']
+PHASE: ['test']

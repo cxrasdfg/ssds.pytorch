@@ -71,5 +71,7 @@ def create_model(cfg):
     priorbox = PriorBox(image_size=cfg.IMAGE_SIZE, feature_maps=feature_maps, aspect_ratios=cfg.ASPECT_RATIOS, 
                     scale=cfg.SIZES, archor_stride=cfg.STEPS, clip=cfg.CLIP)
     # priors = Variable(priorbox.forward(), volatile=True)
+    print(priorbox.forward().shape)
+    # exit()
 
     return model, priorbox
