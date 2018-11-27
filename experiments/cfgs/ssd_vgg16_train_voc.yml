@@ -11,7 +11,7 @@ MODEL:
 TRAIN:
   MAX_EPOCHS: 2
   CHECKPOINTS_EPOCHS: 1
-  BATCH_SIZE: 32
+  BATCH_SIZE: 8
   TRAINABLE_SCOPE: 'base,norm,extras,loc,conf'
   RESUME_SCOPE: 'base,norm,extras,loc,conf'
   OPTIMIZER:
@@ -37,11 +37,11 @@ POST_PROCESS:
 
 DATASET:
   DATASET: 'voc'
-  DATASET_DIR: './data/VOCdevkit'
+  DATASET_DIR: '/root/workspace/D/VOC2007_2012/VOCdevkit1/'
   TRAIN_SETS: [['2007', 'trainval'], ['2012', 'trainval']]
   TEST_SETS:  [['2007', 'test']]
 
 EXP_DIR: './experiments/models/ssd_vgg16_voc'
 LOG_DIR: './experiments/models/ssd_vgg16_voc'
-RESUME_CHECKPOINT: './weights/ssd/vgg16_ssd_voc_76.pth'
-PHASE: ['test']
+RESUME_CHECKPOINT: './weights/ssd/vgg16.weights'
+PHASE: ['train','test']
