@@ -25,8 +25,12 @@ else:
 # VOC_CLASSES = ( '__background__', # always index 0
 # 'ballon', 'uav')
 VOC_CLASSES = ( '__background__', # always index 0
-'chj', 'cxr','dqw',
-'wsq','zzq','znn')
+    'uav')
+
+# VOC_CLASSES = ( '__background__', # always index 0
+# 'chj', 'cxr','dqw',
+# 'wsq','zzq','znn')
+
 
 # for making bounding boxes pretty
 COLORS = ((255, 0, 0, 128), (0, 255, 0, 128), (0, 0, 255, 128),
@@ -121,7 +125,8 @@ class AnnotationTransform(object):
                 continue
             name = obj.find('name').text.lower().strip()
             bbox = obj.find('bndbox')
-
+            if name != 'uav':
+                continue
             pts = ['xmin', 'ymin', 'xmax', 'ymax']
             bndbox = []
             for i, pt in enumerate(pts):
@@ -133,7 +138,8 @@ class AnnotationTransform(object):
             bndbox.append(label_idx)
             res = np.vstack((res,bndbox))  # [xmin, ymin, xmax, ymax, label_ind]
             # img_id = target.find('filename').text[:-4]
-
+        if len(res)==0:
+            res=np.array([[.0,.0,.0,.0,0]])
         return res  # [[xmin, ymin, xmax, ymax, label_ind], ... ]
 
 
